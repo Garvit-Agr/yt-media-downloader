@@ -8,9 +8,9 @@ A dead-simple pair of Python scripts to bulk-download audio (MP3) or video (MP4)
 
 ```
 yt-media-downloader/
-├── README.md               
+├── README.md
 ├── audio_downloader.py     # YouTube → MP3 (configurable bitrate)
-├── video_downloader.py     # YouTube → MP4 (configurable resolution)
+└── video_downloader.py     # YouTube → MP4 (configurable resolution)
 ```
 
 ---
