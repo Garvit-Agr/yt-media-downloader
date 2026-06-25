@@ -16,6 +16,7 @@ uv.lock
 # Download output folders
 Downloaded_Tracks/
 Downloaded_Videos/
+Downloaded_Spotify/
 
 # User input file
 links.txt

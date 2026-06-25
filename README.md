@@ -1,6 +1,6 @@
 # 🎵 yt-media-downloader
 
-A dead-simple pair of Python scripts to bulk-download audio (MP3) or video (MP4) from YouTube — one link per line, supports both individual videos and entire playlists. Completely vibe coded.
+A dead-simple set of Python scripts to bulk-download audio (MP3) or video (MP4) from YouTube, and tracks from Spotify — one link per line, supports both individual videos/tracks and entire playlists. Completely vibe coded.
 
 ---
 
@@ -10,7 +10,8 @@ A dead-simple pair of Python scripts to bulk-download audio (MP3) or video (MP4)
 yt-media-downloader/
 ├── README.md
 ├── audio_downloader.py     # YouTube → MP3 (configurable bitrate)
-└── video_downloader.py     # YouTube → MP4 (configurable resolution)
+├── video_downloader.py     # YouTube → MP4 (configurable resolution)
+└── spotify_downloader.py   # Spotify → MP3/M4A/FLAC (configurable)
 ```
 
 ---
@@ -23,11 +24,15 @@ yt-media-downloader/
    # Install uv (if you don't have it)
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
-3. **yt-dlp** — the download engine
+3. **yt-dlp** — the download engine (for YouTube scripts)
    ```bash
    uv add yt-dlp
    ```
-4. **FFmpeg** — required for audio extraction (MP3) and video merging (MP4)
+4. **spotdl** — the Spotify download engine (for Spotify script)
+   ```bash
+   uv add spotdl
+   ```
+5. **FFmpeg** — required for audio extraction (MP3) and video merging (MP4)
    - **macOS:** `brew install ffmpeg`
    - **Ubuntu/Debian:** `sudo apt install ffmpeg`
    - **Windows:** Download from [ffmpeg.org](https://ffmpeg.org/download.html) and add to your system PATH
@@ -64,6 +69,14 @@ Downloaded files are saved to a `Downloaded_Tracks/` folder created automaticall
 uv run video_downloader.py
 ```
 Downloaded files are saved to a `Downloaded_Videos/` folder created automatically in the script's directory.
+
+**Download from Spotify (audio):**
+```bash
+uv run spotify_downloader.py
+```
+Downloaded files are saved to a `Downloaded_Spotify/` folder created automatically in the script's directory.
+
+> **💡 For the Spotify downloader, use Spotify URLs** (e.g., `https://open.spotify.com/track/...` or `https://open.spotify.com/playlist/...`). It reads from the same `links.txt` file — just put Spotify URLs in it instead of YouTube ones.
 
 ---
 
@@ -108,11 +121,35 @@ VIDEO_QUALITY = 720   # ← Change this value
 
 ---
 
+## 🎶 Spotify Quality Configuration
+
+Open `spotify_downloader.py` and edit the variables at the top:
+
+```python
+# Format options:  "mp3"  |  "m4a"  |  "flac"  |  "ogg"
+AUDIO_FORMAT = 'm4a'    # ← Change this value
+
+# Quality options:  "128k"  |  "192k"  |  "256k"  |  "320k"  |  "disable"
+AUDIO_QUALITY = 'disable'  # ← Change this value
+```
+
+| Format | Notes |
+|--------|-------|
+| `"mp3"` | Most compatible |
+| `"m4a"` | Apple-friendly, good quality *(default)* |
+| `"flac"` | Lossless, largest file size |
+| `"ogg"` | Open-source format, good quality |
+
+> **Note:** Spotify doesn't provide direct audio downloads. `spotdl` works by matching track metadata from Spotify to YouTube and downloading the audio from there. No Spotify login required for public playlists.
+
+---
+
 ## 📝 Notes
 
 - **Playlists with private/deleted videos** — The scripts will automatically skip unavailable videos and continue downloading the rest.
 - **File naming** — Files are saved using the video's YouTube title. Duplicates in the same folder will be overwritten.
 - **`links.txt` is not included** in this repo — you create it yourself with your own links.
+- **Spotify playlists** — must be public. No Spotify login is required.
 
 ---
 
@@ -124,4 +161,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## ⚠️ Disclaimer
 
-This tool is intended for **personal and educational use only**. Downloading copyrighted content without permission may violate [YouTube's Terms of Service](https://www.youtube.com/static?template=terms) and copyright laws in your jurisdiction. The authors are not responsible for any misuse of this software. Please respect content creators' rights.
+This tool is intended for **personal and educational use only**. Downloading copyrighted content without permission may violate [YouTube's Terms of Service](https://www.youtube.com/static?template=terms), [Spotify's Terms of Service](https://www.spotify.com/legal/end-user-agreement/), and copyright laws in your jurisdiction. The authors are not responsible for any misuse of this software. Please respect content creators' rights.
