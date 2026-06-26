@@ -12,6 +12,8 @@ wheels/
 # uv-generated files
 uv.lock
 .python-version
+pyproject.toml
+main.py
 
 # Download output folders
 Downloaded_Tracks/
@@ -20,3 +22,4 @@ Downloaded_Spotify/
 
 # User input file
 links.txt
+
